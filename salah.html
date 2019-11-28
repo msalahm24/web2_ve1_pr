@@ -1,0 +1,67 @@
+<html>
+<head>
+</head>
+<body>
+<h1> guess what in the picture</h1>
+<label> enter number here </label>
+<input id="data"> <input type="submit" id="submit" value="generate">
+<hr>
+<label>choose character from this button</label>
+<div id="alphabets">
+
+</div>
+<div id="images">
+
+</div>
+
+</body>
+<script>
+
+submit = document.getElementById('submit');
+function randomnumbers(min, max){
+	random = Math.floor(Math.random() * (max - min)) + min;
+	return random;
+}
+
+function eventtemplate(type, target, time){
+	this.type = type;
+	this.target = target;
+	this.time = time;
+}
+alphabets = ["A", "B", "C","D", "E", "F", "G", "H", "I", "J","K", "L", "M", "N", "O", "P","Q","R","S", "T", "U", "V", "W","X", "Y","Z"];
+submit.addEventListener("click" , function(e){
+	clickevent = new eventtemplate(e.type, e.target, e.timeStamp);
+	localStorage.setItem('click', JSON.stringify(clickevent));
+
+	num = document.getElementById('data').value;
+	document.getElementById("alphabets").innerHTML = "";
+	document.getElementById("images").innerHTML = "";
+	for(i=0; i<num; i++){
+		rand = randomnumbers(0, 26);
+		image = "<img src='" + rand + ".PNG' id='i" + i +"' style='display:none'>";
+		document.getElementById("images").innerHTML += image;
+		alpahbet = "<button id='a" + i +"'> " + alphabets[rand] + "</button>";
+		document.getElementById("alphabets").innerHTML += alpahbet + " "+ "  "+"  "+"  ";
+	}
+	for(  i = 0; i<num; i++){
+
+		code = "document.getElementById('a' + "+i+").addEventListener('click', function(e){ empty(num); document.getElementById('i' + "+i+").setAttribute('style', 'display:block') })";
+		eval(code);
+		
+	}
+	
+});
+function empty(n){
+for(i=0; i<n;i++){
+	document.getElementById('i'+ i).setAttribute("style", "display:none");
+}
+}
+window.addEventListener("load", function(e){
+	loadevent = new eventtemplate(e.type, e.target, e.timeStamp);
+	localStorage.setItem('load', JSON.stringify(loadevent));
+});
+window.addEventListener("unload", function(e){
+	unloadevent = new eventtemplate(e.type, e.target, e.timeStamp);
+	localStorage.setItem('unload', JSON.stringify(unloadevent));
+});
+</script>
